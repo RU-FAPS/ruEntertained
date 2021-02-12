@@ -3,6 +3,7 @@ import { Stats } from 'Library/stats.module.js';
 class App {
     constructor() {
         this.init();
+        this.update();
         this.animate();
     }
 
@@ -24,6 +25,10 @@ class App {
         renderer.outputEncoding = new THREE.sRGBEncoding;
         render.shadowMap.enabled = true;
         document.body.appendChild(renderer.domElement);
+    }
+    
+    update()    {
+        
     }
 
     animate() {
