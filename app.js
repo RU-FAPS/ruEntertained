@@ -36,7 +36,7 @@ class App {
         );
         camera.position.set(0, 0, 4);
 
-        var renderer = new THREE.WebGLRenderer();
+        var renderer = new THREE.WebGLRenderer( { antialias : true } );
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.outputEncoding = new THREE.sRGBEncoding;
