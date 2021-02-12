@@ -1,4 +1,4 @@
-import { Stats } from 'Library/stats.module.js'
+import { Stats } from './Library/stats.module.js'
 
 class App {
     constructor() {
