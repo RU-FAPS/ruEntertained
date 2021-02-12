@@ -28,7 +28,7 @@ class App {
         document.body.appendChild(container);
         
         var scene = new THREE.Scene();
-        scene.background = new THREE.Color("#808080");
+        scene.background = new THREE.Color("#aaaaaa");
 
         var camera = new THREE.PerspectiveCamera(75,
             window.innerWidth / window.innerHeight,
