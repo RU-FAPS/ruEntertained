@@ -58,3 +58,5 @@ class App {
         renderer.render(scene, camera);
     }
 }
+
+export {App};
