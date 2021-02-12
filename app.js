@@ -35,3 +35,4 @@ class App {
         requestAnimationFrame(this.animate);
         renderer.render(scene, camera);
     }
+}
