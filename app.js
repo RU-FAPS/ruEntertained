@@ -56,7 +56,7 @@ class App {
     }
 
     animate() {
-        requestAnimationFrame(this.animate);
+        requestAnimationFrame(animate);
         renderer.render(scene, camera);
     }
 }
