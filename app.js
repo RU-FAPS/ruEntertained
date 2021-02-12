@@ -1,51 +1,15 @@
-import * as THREE from './Library/THREE/three.module.js';
-import { OrbitControls } from './Library/THREE/jsm/OrbitControls.js';
-import { GLTFLoader } from './Library/THREE/jsm/GLTFLoader.js';
-import { FBXLoader } from './Library/THREE/jsm/FBXLoader.js';
-// import { VRButton } from './Library/THREE/jsm/VRButton.js';
-// import { ARButton } from './Library/THREE/jsm/ARButton.js';
-// import { XRControllerModelFactory } from './Library/THREE/jsm/XRControllerModelFactory.js';
-import { BoxLineGeometry } from './Library/THREE/jsm/BoxLineGeometry.js';
-import { Stats } from './Library/stats.module.js';
-import { LoadingBar } from './Library/LoadingBar.js';
-import { vector3ToString } from './Library/DebugUtils.js';
-import { CanvasUI } from './Library/CanvasUI.js';
-import { CanvasKeyboard } from './Library/CanvasKeyboard.js';
-// import { XRWorldMeshes } from './Library/XRWorldMeshes.js';
-// import { TeleportMesh } from './Library/TeleportMesh.js';
-import { Player } from './Library/Player.js';
-import { RGBELoader } from './Library/THREE/jsm/RGBELoader.js';
-import { Interactable } from './Library/Interactable.js';
-// import {
-//     Constants as MotionControllerConstants,
-//     fetchProfile,
-//     MotionController
-// } from './Library/THREE/jsm/motion-controllers.module.js';
-
 class App {
     constructor() {
-        var container = document.createElement("div");
-        document.body.appendChild(container);
-        
-        var scene = new THREE.Scene();
-        scene.background = new THREE.Color("#aaaaaa");
-
-        var camera = new THREE.PerspectiveCamera(75,
-            window.innerWidth / window.innerHeight,
-            0.1, 1000
-        );
-        camera.position.set(0, 0, 4);
-
-        var renderer = new THREE.WebGLRenderer( { antialias : true } );
-        renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.outputEncoding = new THREE.sRGBEncoding;
-        render.shadowMap.enabled = true;
-        container.appendChild(renderer.domElement);
+        var canvas = document.getElementbyId("canvas1");
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#ff0000";
+        ctx.fillRect(0, 0, 150, 75);
         
         this.init();
         this.update();
         this.animate();
+        
+        renderer.setAnimationLoop(this.render.bind(this));
         
         window.addEventListener("resize", this.resize.bind(this));
     }
@@ -63,8 +27,7 @@ class App {
     }
 
     animate() {
-        requestAnimationFrame(animate);
-        renderer.render(scene, camera);
+
     }
 }
 
