@@ -26,7 +26,7 @@ class App {
     constructor() {
         var container = document.createElement("div");
         document.body.appendChild(container);
-
+        
         var scene = new THREE.Scene();
         scene.background = new THREE.Color("#808080");
 
@@ -34,17 +34,20 @@ class App {
             window.innerWidth / window.innerHeight,
             0.1, 1000
         );
+        camera.position.set(0, 0, 4);
 
         var renderer = new THREE.WebGLRenderer();
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.outputEncoding = new THREE.sRGBEncoding;
         render.shadowMap.enabled = true;
-        document.body.appendChild(renderer.domElement);
+        container.appendChild(renderer.domElement);
         
         this.init();
         this.update();
         this.animate();
+        
+        window.addEventListener("resize", this.resize.bind(this));
     }
 
     init() {
@@ -52,6 +55,10 @@ class App {
     }
     
     update()    {
+        
+    }
+    
+    resize()    {
         
     }
 
