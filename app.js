@@ -8,9 +8,7 @@ class App {
         this.init();
         this.update();
         this.animate();
-        
-        renderer.setAnimationLoop(this.render.bind(this));
-        
+                
         window.addEventListener("resize", this.resize.bind(this));
     }
 
