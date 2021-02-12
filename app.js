@@ -2,34 +2,28 @@ import * as THREE from './Library/THREE/three.module.js';
 import { OrbitControls } from './Library/THREE/jsm/OrbitControls.js';
 import { GLTFLoader } from './Library/THREE/jsm/GLTFLoader.js';
 import { FBXLoader } from './Library/THREE/jsm/FBXLoader.js';
-import { VRButton } from './Library/THREE/jsm/VRButton.js';
-import { ARButton } from './Library/THREE/jsm/ARButton.js';
-import { XRControllerModelFactory } from './Library/THREE/jsm/XRControllerModelFactory.js';
+// import { VRButton } from './Library/THREE/jsm/VRButton.js';
+// import { ARButton } from './Library/THREE/jsm/ARButton.js';
+// import { XRControllerModelFactory } from './Library/THREE/jsm/XRControllerModelFactory.js';
 import { BoxLineGeometry } from './Library/THREE/jsm/BoxLineGeometry.js';
 import { Stats } from './Library/stats.module.js';
 import { LoadingBar } from './Library/LoadingBar.js';
 import { vector3ToString } from './Library/DebugUtils.js';
 import { CanvasUI } from './Library/CanvasUI.js';
 import { CanvasKeyboard } from './Library/CanvasKeyboard.js';
-import { XRWorldMeshes } from './Library/XRWorldMeshes.js';
-import { TeleportMesh } from './Library/TeleportMesh.js';
+// import { XRWorldMeshes } from './Library/XRWorldMeshes.js';
+// import { TeleportMesh } from './Library/TeleportMesh.js';
 import { Player } from './Library/Player.js';
 import { RGBELoader } from './Library/THREE/jsm/RGBELoader.js';
 import { Interactable } from './Library/Interactable.js';
-import {
-    Constants as MotionControllerConstants,
-    fetchProfile,
-    MotionController
-} from './Library/THREE/jsm/motion-controllers.module.js';
+// import {
+//     Constants as MotionControllerConstants,
+//     fetchProfile,
+//     MotionController
+// } from './Library/THREE/jsm/motion-controllers.module.js';
 
 class App {
     constructor() {
-        this.init();
-        this.update();
-        this.animate();
-    }
-
-    init() {
         var container = document.createElement("div");
         document.body.appendChild(container);
 
@@ -47,6 +41,14 @@ class App {
         renderer.outputEncoding = new THREE.sRGBEncoding;
         render.shadowMap.enabled = true;
         document.body.appendChild(renderer.domElement);
+        
+        this.init();
+        this.update();
+        this.animate();
+    }
+
+    init() {
+
     }
     
     update()    {
