@@ -1,26 +1,23 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>RU Entertained? - A FAPS GROUP PRODUCT</title>
-    <meta charset="utf-8" />
-    <meta name="viewport"content="width=device-width, initial-scale=1.0, user-scalable=no" >
-    <style>
-        body { margin: 0; }
-        canvas { display: block; }
-    </style>
-</head>
-<body>
-    <canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;">
-        Your browser does not support the canvas element.
-    </canvas>
-    
-    <script>
-        import { App } from "./app.js";
-        
-        document.addEventListener("DOMContentLoaded", function () {
-            const app = new App();
-            window.app = app;
-        });
-    </script>
-</body>
+    <head>
+        <title>RU-Entertained? - A RU-FAPS Product</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <style>
+            body {
+                margin: 0;
+            }
+
+            canvas {
+                display: block;
+            }
+        </style>
+    </head>
+
+    <body>
+        <canvas id="myCanvas"></canvas>
+        <script src="./Library/localUtils.js"></script>
+        <script src="./app.js"></script>
+    </body>
 </html>

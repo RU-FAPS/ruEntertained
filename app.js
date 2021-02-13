@@ -1,10 +1,11 @@
-class App {
-    constructor() {
-        var canvas = getElementById("CanvasMain");
-        var ctx = canvas.getContext("2d");
-        ctx.fillStyle = "#FF0000";
-        ctx.fillRect(0, 0, 150, 75);
-    }
-}
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
 
-export {App};
+resize();
+
+var dim = [canvas.width, canvas.height];
+
+boxFill(ctx, [0, 0], dim, "#00ff00");
+boxStroke(ctx, [0, 0], dim, "#ff0000", 2);
+
+ctx.fillText("WELCOME ABOARD!", 0.5 * dim[0], 0.5 * dim[1]);
