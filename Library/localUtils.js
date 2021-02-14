@@ -66,10 +66,10 @@ function textPrint(txt, ctx, fontSize, cords, color, align, angle) {   // c = ce
     ctx.translate(-cords[0], -cords[1]);
 
     if (fontSize == undefined) {
-        fontSize = pSwitch.fontSize;
+        fontSize = 12;
     }
 
-    var fontTp = Math.round(fontSize).toString() + pSwitch.fontType;
+    var fontTp = Math.round(fontSize).toString() + "px Arial";
     ctx.font = fontTp;
     if (align == "r" || align == "right") {
         x0 = cords[0] - ctx.measureText(txt).width;
