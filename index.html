@@ -4,20 +4,14 @@
         <title>RU-Entertained? - A RU-FAPS Product</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        <style>
-            body {
-                margin: 0;
-            }
-
-            canvas {
-                display: block;
-            }
-        </style>
+        <link type="text/css" rel="stylesheet" href="style.css">
     </head>
 
     <body>
-        <canvas id="myCanvas"></canvas>
-        <script src="./Library/localUtils.js"></script>
-        <script src="./app.js"></script>
+        <div id="info">
+            <a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> vr - dragging
+        </div>
+
+        <script id="mainApp" type="module" src="./app.js"></script>
     </body>
 </html>
