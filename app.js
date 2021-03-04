@@ -1,46 +1,43 @@
-const canvas = document.getElementById("renderCanvas"); // Get the canvas element
-const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-// Add your code here matching the playground format
-var createScene = function () {
+const light = new THREE.AmbientLight(0xaaaaaa); // soft white light
+scene.add(light);
 
-    const scene = new BABYLON.Scene(engine);
+const renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-    BABYLON.SceneLoader.ImportMeshAsync("", "https://assets.babylonjs.com/meshes/", "box.babylon");
+boxDraw([1, 1, 1], "#2194ce", [0, 0, 0], [0, 0, 0], 1, true, 0.5);
 
-    const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0));
-    camera.attachControl(canvas, true);
-    const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
+camera.position.z = 5;
 
-    return scene;
+const animate = function () {
+	requestAnimationFrame(animate);
+	renderer.render(scene, camera);
 };
 
-//var createScene = async function () {
-//     wait for the polyfill to kick in
-//    await xrPolyfillPromise;
-//    console.log(navigator.xr); // should be there!
-//    console.log(await BABYLON.WebXRSessionManager.IsSessionSupportedAsync("immersive-vr")); // should be true
-//     create your scene
-//    var scene = new BABYLON.Scene(engine);
-//    var camera = new BABYLON.DeviceOrientationCamera("DevOr_camera", new BABYLON.Vector3(-30, -30, -30), scene);
-//    camera.setTarget(BABYLON.Vector3.Zero());
-//    camera.attachControl(canvas, true);
-//    var light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 0, 0), scene);
-//    scale = 100;
-//     initialize XR
-//    var xr = await scene.createDefaultXRExperienceAsync();
-//    return scene;
-//};
+animate();
 
-const scene = createScene(); //Call the createScene function
+function boxDraw(size, color, position, rotation, reflectivity, transparent, opacity) {
+	const geometry = new THREE.BoxGeometry(size[0], size[1], size[2]);
+	//const texture = new THREE.TextureLoader().load(urls);
+	const material = new THREE.MeshBasicMaterial({
+		color: color,
+		transparent: transparent,
+		opacity: opacity,
+		//envMap: camera.renderTarget,
+		reflectivity: reflectivity
+	});
 
-// Register a render loop to repeatedly render the scene
-engine.runRenderLoop(function () {
+	const cube = new THREE.Mesh(geometry, material);
+	scene.add(cube);
 
-    scene.render();
-});
+	cube.position.x = position[0];
+	cube.position.y = position[1];
+	cube.position.z = position[2];
 
-// Watch for browser/canvas resize events
-window.addEventListener("resize", function () {
-    engine.resize();
-});
+	cube.rotation.x = deg2rad(rotation[0]);
+	cube.rotation.y = deg2rad(rotation[1]);
+	cube.rotation.z = deg2rad(rotation[2]);
+}

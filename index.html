@@ -1,24 +1,70 @@
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<!DOCTYPE html>
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
-    <title>GUI Test</title>
-
-    <link type="text/css" rel="stylesheet" href="style.css">
-
-    <script src="https://cdn.babylonjs.com/babylon.js"></script>
-    <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-    <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+	<meta charset="utf-8">
+	<title>RU-Entertained? System</title>
+	<link rel="shortcut icon" href="./Assets/Images/logo1.png" />
+	<link type="text/css" rel="stylesheet" href="main.css">
 </head>
-
 <body>
+	<div class="container">
+		<form action="/action_page.php">
+			<div class="row">
+				<h2 style="text-align:center">Login with Social Media or Manually</h2>
+				<div class="vl">
+					<span class="vl-innertext">or</span>
+				</div>
 
-    <canvas id="renderCanvas" touch-action="none"></canvas> <!-- touch-action="none" for best results from PEP -->
+				<div class="col">
+					<a href="#" class="fb btn">
+						<i class="fa fa-facebook fa-fw"></i> Login with Facebook
+					</a>
+					<a href="#" class="twitter btn">
+						<i class="fa fa-twitter fa-fw"></i> Login with Twitter
+					</a>
+					<a href="#" class="google btn">
+						<i class="fa fa-google fa-fw">
+						</i> Login with Google
+					</a>
+				</div>
 
-    <script src="./app.js"></script>
+				<div class="col">
+					<div class="hide-md-lg">
+						<p>Or sign in manually:</p>
+					</div>
+
+					<input type="text" name="username" placeholder="Username" required>
+					<input type="password" name="password" placeholder="Password" required>
+					<input type="submit" value="Login">
+				</div>
+
+			</div>
+		</form>
+	</div>
+
+	<div class="bottom-container">
+		<div class="row">
+			<div class="col">
+				<a href="#" style="color:white" class="btn">Sign up</a>
+			</div>
+			<div class="col">
+				<a href="#" style="color:white" class="btn">Forgot password?</a>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// Get the modal
+		var modal = document.getElementById('id01');
+
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function (event) {
+			if (event.target == modal) {
+				modal.style.display = "none";
+			}
+		}
+	</script>
+
 
 </body>
-
 </html>
