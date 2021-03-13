@@ -1,52 +1,94 @@
-function init() {
-	var scene = new THREE.Scene();
-	var clock = new THREE.Clock();
-	var stats = new THREE.Stats();
-	document.body.appendChild(stats.dom);
+/* Scene setup */
+var scene = new THREE.Scene();
 
-    var camera = new THREE.PerspectiveCamera(
-        45,                                         // FOV
-        window.innerWidth / window.innerHeight,     // Aspect Ratio
-        .1,                                          // Near plane
-        1000                                        // Far Plane
-    );
+/* Camera Setup */
+var camera = new THREE.PerspectiveCamera(
+	45,                                         // FOV
+	window.innerWidth / window.innerHeight,     // Aspect Ratio
+	.1,                                          // Near plane
+	1000                                        // Far Plane
+);
+
+/* Add Raycaster for mouse or touch interaction */
+var raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
+
+init();
+
+function init() {
+	var clock = new THREE.Clock();
+	var stats = new Stats();
+	var gui = new dat.GUI();
+	document.body.appendChild(stats.dom);
 
 	camera.position.z = 5;
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-    // lighting
-	getAmbientLight(1);
-	var pLight = getPointLight(1);
-	var pLightSphere = getSphere(0.1);
-	pLight.add(pLightSphere);
-    var dLight = getDirectionalLight(2);
-    dLight.position.set(13, 10, 10);
+/* Lighting setup */
+	var aLight = getAmbientLight(5);
+    var dLight = getDirectionalLight(10);
+	dLight.position.set(13, 10, 10);
 
-    scene.add(getBox([1, 1, 1], [0, 0, 0], [deg2rad(2), deg2rad(5), 0], 'rgb(255, 255, 0)'));
+/* Texture Setup */
+	var loader = new THREE.TextureLoader();
+	var imgPath = '../Assets/Images/';
 
+/* Environment Map */
+	getEnvMaps(imgPath);
+
+/* Rotating LOGO in the lock screen */
+	// Meshes
+	var box1Material = getMaterial('basic');
+	var box1 = getBox([1, 1, 1], [0, 0, 0], [0, 0, 0], box1Material);
+	box1.name = 'box1';
+	//box1Material.roughness = 0.1;
+	//box1Material.metalness = 0.25;
+	scene.add(box1);
+
+	// Texture Materials
+	box1Material.map = loader.load(imgPath + 'logo1.png');
+	var texture1 = box1Material.map;
+	texture1.wrapS = THREE.RepeatWrapping;
+	texture1.wrapT = THREE.RepeatWrapping;
+	texture1.repeat.set(1, 1);
+
+/* Login */
+	var box2Material = getMaterial('basic');
+	var box2 = getBox([1, 0.45, 0.1], [0, -1, 0], [-deg2rad(5), 0, 0], box2Material);
+	scene.add(box2);
+
+	// Texture Materials
+	box2Material.map = loader.load(imgPath + 'login.png');
+	var texture2 = box2Material.map;
+	texture2.wrapS = THREE.RepeatWrapping;
+	texture2.wrapT = THREE.RepeatWrapping;
+	texture2.repeat.set(1, 1);
+
+	//Interaction
+	window.addEventListener('mousemove', onMouseMove, false);
+
+/* Set up the renderer */
     var renderer = new THREE.WebGLRenderer();
     renderer.shadowMap.enabled = true;
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor('rgb(120, 120, 120)');
+    renderer.setClearColor('rgb(0,0,0)');
     document.getElementById('webgl').appendChild(renderer.domElement);
 
-    var controls = new THREE.OrbitControls(camera, renderer.domElement);
-    update(scene, camera, renderer, controls, clock, stats);
+    update(renderer, clock, stats);
 
     return scene;
 }
 
-function getBox(size, position, rotation, color) {
+function getBox(size, position, rotation, material) {
 	var geometry = new THREE.BoxGeometry(size[0], size[1], size[2]);
-	var material = new THREE.MeshStandardMaterial();
 	var mesh = new THREE.Mesh(
 		geometry,
 		material
 	);
-	//mesh.castShadow = true;
+	mesh.castShadow = true;
 
 	mesh.position.set(position[0], position[1], position[2]);
-	mesh.position.set(rotation[0], rotation[1], rotation[2]);
+	mesh.rotation.set(rotation[0], rotation[1], rotation[2]);
 
 	return mesh;
 }
@@ -91,9 +133,7 @@ function getPlane(size) {
 
 function getSphere(size) {
 	var geometry = new THREE.SphereGeometry(size, 24, 24);
-	var material = new THREE.MeshBasicMaterial({
-		color: 'rgb(255, 255, 255)'
-	});
+	var material = getMaterial('standard');
 	var mesh = new THREE.Mesh(
 		geometry,
 		material
@@ -104,12 +144,15 @@ function getSphere(size) {
 
 function getAmbientLight(intensity) {
 	var light = new THREE.AmbientLight(0xffffff, intensity);
+	scene.add(light);
+
 	return light;
 }
 
 function getPointLight(intensity) {
 	var light = new THREE.PointLight(0xffffff, intensity);
 	light.castShadow = true;
+	scene.add(light);
 
 	return light;
 }
@@ -117,6 +160,7 @@ function getPointLight(intensity) {
 function getSpotLight(intensity) {
 	var light = new THREE.SpotLight(0xffffff, intensity);
 	light.castShadow = true;
+	scene.add(light);
 
 	light.shadow.bias = 0.001;
 	light.shadow.mapSize.width = 2048;
@@ -128,6 +172,7 @@ function getSpotLight(intensity) {
 function getDirectionalLight(intensity) {
 	var light = new THREE.DirectionalLight(0xffffff, intensity);
 	light.castShadow = true;
+	scene.add(light);
 
 	light.shadow.camera.left = -40;
 	light.shadow.camera.bottom = -40;
@@ -140,14 +185,64 @@ function getDirectionalLight(intensity) {
 	return light;
 }
 
-function update(scene, camera, renderer, controls, clock, stats) {
-	controls.update();
+function getMaterial(type, color) {
+	var selectedMaterial;
+	var materialOptions = {
+		color: color === undefined ? 'rgb(255,255,255)' : color,
+	};
+	switch (type) {
+		case 'basic':
+			selectedMaterial = new THREE.MeshBasicMaterial(materialOptions);
+			break;
+		case 'standard':
+			selectedMaterial = new THREE.MeshStandardMaterial(materialOptions);
+			break;
+		case 'phong':
+			selectedMaterial = new THREE.MeshPhongMaterial(materialOptions);
+			break;
+		case 'lambert':
+			selectedMaterial = new THREE.MeshLambertMaterial(materialOptions);
+			break;
+		default:
+			selectedMaterial = new THREE.MeshBasicMaterial(materialOptions);
+			break;
+	}
+	return selectedMaterial;
+}
+
+function getEnvMaps(path) {
+	var format = '.jpg';
+	var urls = [
+		path + 'px' + format, path + 'nx' + format, 
+		path + 'py' + format, path + 'ny' + format, 
+		path + 'pz' + format, path + 'nz' + format, 
+    ];
+	var reflectionCube = new THREE.CubeTextureLoader().load(urls);
+	reflectionCube.format = THREE.RGBFormat;
+	scene.background = reflectionCube;
+}
+
+function onMouseMove(event) {
+	
+	mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+	mouse.y = (event.clientY / window.innerHeight) * 2 + 1;
+}
+
+function update(renderer, clock, stats) {
+	
 	stats.update();
+
+	var box1 = scene.getObjectByName('box1');
+	box1.rotation.y += 0.01;
+
+	raycaster.setFromCamera(mouse, camera);
+	const intersects = raycaster.intersectObjects(scene.children);
+	for (let i = 0; i < intersects.length; i++) {
+		intersects[i].object.material.color.set(0xffffff);
+	}
 
     renderer.render(scene, camera);
     requestAnimationFrame(function () {
-        update(scene, camera, renderer, controls, clock, stats);
+        update(renderer, clock, stats);
     })
 }
-
-var scene = init();
