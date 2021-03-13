@@ -1,6 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\examples\\js",
+    "\\examples\\jsm",
+    "\\examples\\jsm\\libs",
+    "\\libs",
+    "\\scenes"
   ],
   "SelectedNode": "\\app.js",
   "PreviewInSolutionExplorer": false
