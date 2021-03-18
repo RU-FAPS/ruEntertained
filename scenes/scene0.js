@@ -76,9 +76,18 @@ function init() {
 	
 	var canvasFolder = gui.addFolder('Canvas properties');
 	var canvasPosFolder = canvasFolder.addFolder('Position');
-	canvasPosFolder.add(canvas1.position, 'x', -10, 10);
-	canvasPosFolder.add(canvas1.position, 'y', -10, 10);
-	canvasPosFolder.add(canvas1.position, 'z', -10, 10);
+	canvasPosFolder.add(canvas1.position, 'x', -5, 5);
+	canvasPosFolder.add(canvas1.position, 'y', -5, 5);
+	canvasPosFolder.add(canvas1.position, 'z', -5, 5);
+	var canvasRotFolder = canvasFolder.addFolder('Rotation');
+	canvasRotFolder.add(canvas1.rotation, 'x', -Math.PI, Math.PI);
+	canvasRotFolder.add(canvas1.rotation, 'y', -Math.PI, Math.PI);
+	canvasRotFolder.add(canvas1.rotation, 'z', -Math.PI, Math.PI);
+	var canvasSclFolder = canvasFolder.addFolder('Scale');
+	canvasSclFolder.add(canvas1.scale, 'x', 0.1, 3);
+	canvasSclFolder.add(canvas1.scale, 'y', 0.1, 3);
+	canvasSclFolder.add(canvas1.scale, 'z', 0.1, 3);
+
 
 
 	//Loading canvas on to this mesh
