@@ -31,7 +31,6 @@ function init() {
 	var aLight = getAmbientLight(5);
     var dLight = getDirectionalLight(10);
 	dLight.position.set(13, 10, 10);
-	gui.add(dLight.position, 'x', -5, 5);
 
 /* Texture Setup */
 	var loader = new THREE.TextureLoader();
@@ -72,10 +71,14 @@ function init() {
 /* Source info */
 	var canvas1Material = getMaterial('basic', 'rgb(120, 120, 120)');
 	canvas1Material.side = THREE.DoubleSide;
-	var canvas1 = getPlane(10, canvas1Material);
+	var canvas1 = getPlane(4, canvas1Material);
 	scene.add(canvas1);
 	
-	gui.add(box1.position, 'x', -10, 10);
+	gui.folder('Canvas properties')
+	gui.add(canvas1.position, 'x', -10, 10);
+	gui.add(canvas1.position, 'y', -10, 10);
+	gui.add(canvas1.position, 'z', -10, 10);
+
 
 	//Loading canvas on to this mesh
 	//canvas1Material.map = getCanvas();
@@ -286,7 +289,7 @@ function update(renderer, clock, stats, controls) {
 	stats.update();
 
 	var box1 = scene.getObjectByName('box1');
-	//box1.rotation.y += 0.01;
+	box1.rotation.y += 0.01;
 
 	raycaster.setFromCamera(mouse, camera);
 	const intersects = raycaster.intersectObjects(scene.children);
