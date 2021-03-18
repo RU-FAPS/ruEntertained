@@ -263,11 +263,7 @@ function getCanvas() {
 	ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
 	var texture = THREE.CanvasTexture(canvas);
-	var material = new THREE.MeshBasicMaterial({
-		map: texture
-	});
 
-	texture.needsUpdate = true;
 	return texture;
 }
 
