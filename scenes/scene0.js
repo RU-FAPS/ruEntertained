@@ -74,10 +74,11 @@ function init() {
 	var canvas1 = getPlane(4, canvas1Material);
 	scene.add(canvas1);
 	
-	gui.folder('Canvas properties')
-	gui.add(canvas1.position, 'x', -10, 10);
-	gui.add(canvas1.position, 'y', -10, 10);
-	gui.add(canvas1.position, 'z', -10, 10);
+	var canvasFolder = gui.addFolder('Canvas properties');
+	var canvasPosFolder = canvasFolder.addFolder('Position');
+	canvasPosFolder.add(canvas1.position, 'x', -10, 10);
+	canvasPosFolder.add(canvas1.position, 'y', -10, 10);
+	canvasPosFolder.add(canvas1.position, 'z', -10, 10);
 
 
 	//Loading canvas on to this mesh
