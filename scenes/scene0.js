@@ -71,8 +71,11 @@ function init() {
 /* Source info */
 	var canvas1Material = getMaterial('basic', 'rgb(120, 120, 120)');
 	canvas1Material.side = THREE.DoubleSide;
-	var canvas1 = getPlane(4, canvas1Material);
+	var canvas1 = getPlane(2, canvas1Material);
 	scene.add(canvas1);
+	canvas1.position.y = 1;
+	canvas1.position.x = -4;
+	canvas1Material.map = getCanvas();
 	
 	var canvasFolder = gui.addFolder('Canvas properties');
 	var canvasPosFolder = canvasFolder.addFolder('Position');
