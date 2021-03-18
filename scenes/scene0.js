@@ -74,7 +74,7 @@ function init() {
 	var canvas1 = getPlane(2, canvas1Material);
 	scene.add(canvas1);
 	canvas1.position.y = 1;
-	canvas1.position.x = -4;
+	canvas1.position.x = -2;
 	canvas1Material.map = getCanvas();
 	
 	var canvasFolder = gui.addFolder('Canvas properties');
