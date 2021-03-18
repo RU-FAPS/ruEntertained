@@ -35,7 +35,7 @@ function init() {
 
 /* Texture Setup */
 	var loader = new THREE.TextureLoader();
-	var imgPath = '../Assets/Images/';
+	var imgPath = './Assets/Images/';
 
 /* Environment Map */
 	getEnvMaps(imgPath);
@@ -286,7 +286,7 @@ function update(renderer, clock, stats, controls) {
 	stats.update();
 
 	var box1 = scene.getObjectByName('box1');
-	box1.rotation.y += 0.01;
+	//box1.rotation.y += 0.01;
 
 	raycaster.setFromCamera(mouse, camera);
 	const intersects = raycaster.intersectObjects(scene.children);
