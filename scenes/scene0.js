@@ -1,8 +1,11 @@
+/* Variable declarations */
+let scene, camera, raycaster, mouse;
+
 /* Scene setup */
-var scene = new THREE.Scene();
+scene = new THREE.Scene();
 
 /* Camera Setup */
-var camera = new THREE.PerspectiveCamera(
+camera = new THREE.PerspectiveCamera(
 	45,                                         // FOV
 	window.innerWidth / window.innerHeight,     // Aspect Ratio
 	.1,                                          // Near plane
@@ -10,8 +13,8 @@ var camera = new THREE.PerspectiveCamera(
 );
 
 /* Add Raycaster for mouse or touch interaction */
-var raycaster = new THREE.Raycaster();
-var mouse = new THREE.Vector2();
+raycaster = new THREE.Raycaster();
+mouse = new THREE.Vector2();
 
 init();
 
@@ -28,6 +31,7 @@ function init() {
 	var aLight = getAmbientLight(5);
     var dLight = getDirectionalLight(10);
 	dLight.position.set(13, 10, 10);
+	gui.add(dLight.position, 'x', -5, 5);
 
 /* Texture Setup */
 	var loader = new THREE.TextureLoader();
@@ -56,6 +60,7 @@ function init() {
 	var box2Material = getMaterial('basic');
 	var box2 = getBox([1, 0.45, 0.1], [0, -1, 0], [-deg2rad(5), 0, 0], box2Material);
 	scene.add(box2);
+	box2.name = 'box2';
 
 	// Texture Materials
 	box2Material.map = loader.load(imgPath + 'login.png');
@@ -64,17 +69,29 @@ function init() {
 	texture2.wrapT = THREE.RepeatWrapping;
 	texture2.repeat.set(1, 1);
 
-	//Interaction
-	window.addEventListener('mousemove', onMouseMove, false);
+/* Source info */
+	var canvas1Material = getMaterial('basic', 'rgb(120, 120, 120)');
+	canvas1Material.side = THREE.DoubleSide;
+	var canvas1 = getPlane(10, canvas1Material);
+	scene.add(canvas1);
+	
+	gui.add(box1.position, 'x', -10, 10);
+
+	//Loading canvas on to this mesh
+	//canvas1Material.map = getCanvas();
 
 /* Set up the renderer */
     var renderer = new THREE.WebGLRenderer();
     renderer.shadowMap.enabled = true;
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor('rgb(0,0,0)');
-    document.getElementById('webgl').appendChild(renderer.domElement);
+    renderer.setSize(window.innerWidth, window.innerHeight, false);
+	document.getElementById('webgl').appendChild(renderer.domElement);
 
-    update(renderer, clock, stats);
+	/* Interaction */
+	var controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+	window.addEventListener('onclick', onMouseMove);
+
+	update(renderer, clock, stats, controls);
 
     return scene;
 }
@@ -116,12 +133,8 @@ function getBoxGrid(amount, separationMultiplier) {
 	return group;
 }
 
-function getPlane(size) {
+function getPlane(size, material) {
 	var geometry = new THREE.PlaneGeometry(size, size);
-	var material = new THREE.MeshPhongMaterial({
-		color: 'rgb(120, 120, 120)',
-		side: THREE.DoubleSide
-	});
 	var mesh = new THREE.Mesh(
 		geometry,
 		material
@@ -222,13 +235,53 @@ function getEnvMaps(path) {
 	scene.background = reflectionCube;
 }
 
-function onMouseMove(event) {
-	
-	mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-	mouse.y = (event.clientY / window.innerHeight) * 2 + 1;
+function getCanvas() {
+	var canvas = document.createElement('canvas');
+	var ctx = canvas.getContext('2d');
+	canvas.width = 8;
+	canvas.height = 8;
+
+	ctx.fillStyle = "#000000";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.strokeStyle = "#ff00ff";
+	ctx.strokeRect(0, 0, canvas.width, canvas.height);
+
+	var texture = THREE.CanvasTexture(canvas);
+	var material = new THREE.MeshBasicMaterial({
+		map: texture
+	});
+
+	texture.needsUpdate = true;
+	return texture;
 }
 
-function update(renderer, clock, stats) {
+function onMouseMove(event) {	
+	event.preventDefault();
+	mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+	mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+	raycaster.setFromCamera(mouse, camera);
+
+	var intersects = raycaster.intersectObjects(objects);
+
+	if (intersects.length > 0) {
+
+		intersects[0].object.callback();
+
+	}
+
+	console.log("Clicked!");
+}
+
+function clickEvents() {
+	var box2 = scene.getObjectByName('box2');
+	
+}
+
+function resize() {
+	
+}
+
+function update(renderer, clock, stats, controls) {
 	
 	stats.update();
 
@@ -241,8 +294,9 @@ function update(renderer, clock, stats) {
 		intersects[i].object.material.color.set(0xffffff);
 	}
 
+	window.addEventListener('resize', resize);
     renderer.render(scene, camera);
-    requestAnimationFrame(function () {
-        update(renderer, clock, stats);
-    })
+	requestAnimationFrame(function () {
+		update(renderer, clock, stats, controls);
+	});
 }
