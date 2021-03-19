@@ -68,8 +68,8 @@ function init() {
 	texture2.wrapT = THREE.RepeatWrapping;
 	texture2.repeat.set(1, 1);
 
-/* Canvas contents */
-	var canvas1 = getPlaneCanvas([-2, 1], 2);
+	/* Canvas contents */
+	var canvas1 = getPlaneCanvas([-2, 1], 2, 'test');
 	var canvas2 = getPlaneCanvas([2, 1], 2);
 
 /* Set up the renderer */
@@ -88,23 +88,17 @@ function init() {
     return scene;
 }
 
-function getPlaneCanvas(position2dVector, size2dSquareValue) {
+function getPlaneCanvas(position2dVector, size2dSquareValue, content2display) {
 	var canvas = document.createElement('canvas');
 	var ctx = canvas.getContext('2d');
 	canvas.width = 256;
 	canvas.height = 256;
-	singleLine(ctx, [
-		0, 0,
-		canvas.width, canvas.height
-	], "#ff0000", 2);
-	singleLine(ctx, [
-		0, canvas.height,
-		canvas.width, 0
-	], "#ff0000", 2);
+	dispFunction(ctx, content2display);
 	const texture = new THREE.CanvasTexture(canvas);
 	var canvasMaterial = new THREE.MeshBasicMaterial({
 		color: '#ff00ff',
-		map: texture
+		map: texture,
+		side: THREE.DoubleSide
 	});
 	var canvasPlane = getPlane(size2dSquareValue, canvasMaterial);
 	scene.add(canvasPlane);
@@ -113,6 +107,35 @@ function getPlaneCanvas(position2dVector, size2dSquareValue) {
 	texture.name = 'canvasTexture';
 
 	return canvasPlane;
+}
+
+function dispFunction(ctx, content) {
+	var w = ctx.canvas.width;
+	var h = ctx.canvas.height;
+	switch (content){
+		case 'test':
+			testContent(ctx, w, h);
+			break;
+		default:
+			helloWorld(ctx, w, h);
+			break;
+    }
+}
+
+function testContent(ctx, w, h) {
+	singleLine(ctx, [
+		0, 0,
+		w, h
+	], "#ff0000", 2);
+	singleLine(ctx, [
+		0, h,
+		w, 0
+	], "#ff0000", 2);
+	textPrint("TEST", ctx, 15, [w / 2, h / 2], "#00ff00", "c");
+}
+
+function helloWorld(ctx, w, h) {
+	textPrint("HELLO WORLD!", ctx, 15, [w / 2, h / 2], "#00ff00");
 }
 
 function getBox(size, position, rotation, material) {
