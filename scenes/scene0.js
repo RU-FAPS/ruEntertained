@@ -68,33 +68,9 @@ function init() {
 	texture2.wrapT = THREE.RepeatWrapping;
 	texture2.repeat.set(1, 1);
 
-/* Source info */
-	var canvas1Material = getMaterial('basic', 'rgb(120, 120, 120)');
-	canvas1Material.side = THREE.DoubleSide;
-	var canvas1 = getPlane(2, canvas1Material);
-	scene.add(canvas1);
-	canvas1.position.y = 1;
-	canvas1.position.x = -2;
-	canvas1Material.map = getCanvas();
-	
-	var canvasFolder = gui.addFolder('Canvas properties');
-	var canvasPosFolder = canvasFolder.addFolder('Position');
-	canvasPosFolder.add(canvas1.position, 'x', -5, 5);
-	canvasPosFolder.add(canvas1.position, 'y', -5, 5);
-	canvasPosFolder.add(canvas1.position, 'z', -5, 5);
-	var canvasRotFolder = canvasFolder.addFolder('Rotation');
-	canvasRotFolder.add(canvas1.rotation, 'x', -Math.PI, Math.PI);
-	canvasRotFolder.add(canvas1.rotation, 'y', -Math.PI, Math.PI);
-	canvasRotFolder.add(canvas1.rotation, 'z', -Math.PI, Math.PI);
-	var canvasSclFolder = canvasFolder.addFolder('Scale');
-	canvasSclFolder.add(canvas1.scale, 'x', 0.1, 3);
-	canvasSclFolder.add(canvas1.scale, 'y', 0.1, 3);
-	canvasSclFolder.add(canvas1.scale, 'z', 0.1, 3);
-
-
-
-	//Loading canvas on to this mesh
-	//canvas1Material.map = getCanvas();
+/* Canvas contents */
+	var canvas1 = getPlaneCanvas([-2, 1], 2);
+	var canvas2 = getPlaneCanvas([2, 1], 2);
 
 /* Set up the renderer */
     var renderer = new THREE.WebGLRenderer();
@@ -110,6 +86,33 @@ function init() {
 	update(renderer, clock, stats, controls);
 
     return scene;
+}
+
+function getPlaneCanvas(position2dVector, size2dSquareValue) {
+	var canvas = document.createElement('canvas');
+	var ctx = canvas.getContext('2d');
+	canvas.width = 256;
+	canvas.height = 256;
+	singleLine(ctx, [
+		0, 0,
+		canvas.width, canvas.height
+	], "#ff0000", 2);
+	singleLine(ctx, [
+		0, canvas.height,
+		canvas.width, 0
+	], "#ff0000", 2);
+	const texture = new THREE.CanvasTexture(canvas);
+	var canvasMaterial = new THREE.MeshBasicMaterial({
+		color: '#ff00ff',
+		map: texture
+	});
+	var canvasPlane = getPlane(size2dSquareValue, canvasMaterial);
+	scene.add(canvasPlane);
+	canvasPlane.position.x = position2dVector[0];
+	canvasPlane.position.y = position2dVector[1];
+	texture.name = 'canvasTexture';
+
+	return canvasPlane;
 }
 
 function getBox(size, position, rotation, material) {
@@ -151,11 +154,7 @@ function getBoxGrid(amount, separationMultiplier) {
 
 function getPlane(size, material) {
 	var geometry = new THREE.PlaneGeometry(size, size);
-	var mesh = new THREE.Mesh(
-		geometry,
-		material
-	);
-	mesh.receiveShadow = true;
+	var mesh = new THREE.Mesh(geometry,	material);
 
 	return mesh;
 }
@@ -251,22 +250,6 @@ function getEnvMaps(path) {
 	scene.background = reflectionCube;
 }
 
-function getCanvas() {
-	var canvas = document.createElement('canvas');
-	var ctx = canvas.getContext('2d');
-	canvas.width = 8;
-	canvas.height = 8;
-
-	ctx.fillStyle = "#000000";
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
-	ctx.strokeStyle = "#ff00ff";
-	ctx.strokeRect(0, 0, canvas.width, canvas.height);
-
-	var texture = THREE.CanvasTexture(canvas);
-
-	return texture;
-}
-
 function onMouseMove(event) {	
 	event.preventDefault();
 	mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -296,6 +279,9 @@ function resize() {
 function update(renderer, clock, stats, controls) {
 	
 	stats.update();
+	controls.update();
+
+	var canvasTexture = scene.getObjectByName('canvasTexture');
 
 	var box1 = scene.getObjectByName('box1');
 	box1.rotation.y += 0.01;
