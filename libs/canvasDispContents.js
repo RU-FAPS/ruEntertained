@@ -11,7 +11,6 @@ function getPlaneCanvas(position2dVector, size2dSquareValue, content2display) {
 		color: '#ff00ff'
 	});
 
-	gui.add(canvasMaterial, 'opacity', 0, 1);
 	gui.add(canvasMaterial, 'transparent');
 	var canvasPlane = getPlane(size2dSquareValue, canvasMaterial);
 	scene.add(canvasPlane);
@@ -35,7 +34,10 @@ function dispFunction(ctx, content) {
 			flight_info(ctx, w, h);
 			break;
 		case 'clock':
-			clock(ctx, w, h);
+			dispClock(ctx, w, h);
+			break;
+		case 'login':
+			dispLogin(ctx, w, h);
 			break;
 		default:
 			helloWorld(ctx, w, h);
@@ -43,7 +45,7 @@ function dispFunction(ctx, content) {
 	}
 }
 
-function clock(ctx, w, h) {
+function dispClock(ctx, w, h) {
 	var now = new Date();
 	var date = [now.getDate(), now.getMonth(), now.getFullYear()];
 	var time = [now.getHours(), now.getMinutes(), now.getSeconds(), 'AM'];
@@ -55,7 +57,7 @@ function clock(ctx, w, h) {
 		ctx, 40, [w / 2, h * 0.40], "#ffffff");
 	textPrint(
 		time[0] + ":" + nDigits(time[1], 2) + ":" + nDigits(time[2],2) + " "+time[3],
-		ctx,60, [w / 2, h * 0.70], "#ffffff");
+		ctx, 60, [w / 2, h * 0.70], "#ffffff");
 }
 
 function flight_info(ctx, w, h) {
@@ -90,4 +92,8 @@ function testContent(ctx, w, h) {
 
 function helloWorld(ctx, w, h) {
 	textPrint("HELLO WORLD!", ctx, 15, [w / 2, h / 2], "#00ff00");
+}
+
+function dispLogin(ctx, w, h) {
+	ctx.clearRect(0, 0, w, h);
 }
