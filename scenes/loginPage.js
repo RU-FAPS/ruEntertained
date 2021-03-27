@@ -40,7 +40,8 @@ function loginPage(event) {
 function dispLogin(ctx, w, h) {
 	textPrint("PLEASE LOGIN", ctx, 40, [w * 0.5, h * 0.1], "#0f0", "c");
 	textPrint("Voucher Code", ctx, 30, [w * 0.5, h * 0.3], "#0f0", "c");
-	boxFill(ctx, [w*0.3,h*0.4], [w*0.4, h*0.2], "#fff", 2);
+	boxFill(ctx, [w * 0.3, h * 0.4], [w * 0.4, h * 0.2], "#fff", 2);
+
 }
 
 

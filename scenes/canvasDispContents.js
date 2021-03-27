@@ -105,13 +105,10 @@ function helloWorld(ctx, w, h) {
 
 function dispLiveFlight(ctx, w, h) {
 	circleStroke(ctx, [w / 2, h / 2], 0.5 * w, "#fff");
+	textPrint("<Outside View>", ctx, 40, [w / 2, h / 2], "#f00", "c");
 	var img = new Image();
-	img.onload = function () {
-		for (var i = 0; i < 4; i++) {
-			for (var j = 0; j < 3; j++) {
-				ctx.drawImage(img, j * 50, i * 38, 50, 38);
-			}
-		}
-	};
-	img.src = 'https://mdn.mozillademos.org/files/5397/rhino.jpg';
+	img.src = './Assets/Images/copilotView.png';
+	img.addEventListener("load", function (event) {
+		ctx.drawImage(img, w/2, h/2);
+	}, false);
 }
