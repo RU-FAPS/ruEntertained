@@ -5,13 +5,16 @@ function getPlaneCanvas(position2dVector, size2dSquareValue, content2display) {
 	var ctx = canvas.getContext('2d');
 	canvas.width = 512;
 	canvas.height = canvas.width;
+	boxFill(ctx, [0, 0], [canvas.width, canvas.height], "#000");
 	dispFunction(ctx, content2display);
 	var texture = new THREE.CanvasTexture(canvas);
 	var canvasMaterial = new THREE.MeshBasicMaterial({
-		color: '#ff00ff'
+		color: '#fff',
+		transparent: true,
+		alphaTest: 0.5,
+		opacity: 0.8
 	});
-
-	gui.add(canvasMaterial, 'transparent');
+	//gui.add(canvasMaterial, 'opacity', 0.5, 1);
 	var canvasPlane = getPlane(size2dSquareValue, canvasMaterial);
 	scene.add(canvasPlane);
 	canvasPlane.position.x = position2dVector[0];
@@ -38,6 +41,12 @@ function dispFunction(ctx, content) {
 			break;
 		case 'login':
 			dispLogin(ctx, w, h);
+			break;
+		case 'feedback':
+			dispFeedback(ctx, w, h);
+			break;
+		case 'live_flight':
+			dispLiveFlight(ctx, w, h);
 			break;
 		default:
 			helloWorld(ctx, w, h);
@@ -92,4 +101,17 @@ function testContent(ctx, w, h) {
 
 function helloWorld(ctx, w, h) {
 	textPrint("HELLO WORLD!", ctx, 15, [w / 2, h / 2], "#00ff00");
+}
+
+function dispLiveFlight(ctx, w, h) {
+	circleStroke(ctx, [w / 2, h / 2], 0.5 * w, "#fff");
+	var img = new Image();
+	img.onload = function () {
+		for (var i = 0; i < 4; i++) {
+			for (var j = 0; j < 3; j++) {
+				ctx.drawImage(img, j * 50, i * 38, 50, 38);
+			}
+		}
+	};
+	img.src = 'https://mdn.mozillademos.org/files/5397/rhino.jpg';
 }

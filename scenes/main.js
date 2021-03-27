@@ -28,9 +28,9 @@ function init() {
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 /* Lighting setup */
-	var aLight = getAmbientLight(5);
-    var dLight = getDirectionalLight(10);
-	dLight.position.set(13, 10, 10);
+	//var aLight = getAmbientLight(5);
+ //   var dLight = getDirectionalLight(10);
+	//dLight.position.set(13, 10, 10);
 
 /* Texture Setup */
 	var loader = new THREE.TextureLoader();
@@ -64,6 +64,7 @@ function init() {
 	loginBtn.style.height = "20%";
 	loginBtn.style.fontSize = "300%";
 	loginBtn.style.fontFamily = "cursive";
+	loginBtn.style.color = "#fff";
 	loginBtn.style.backgroundColor = "#e63800";
 	//loginBtn.style.backgroundImage = "url('./Assets/Images/login.png')";
 	//loginBtn.style.backgroundSize = "cover";
@@ -71,6 +72,7 @@ function init() {
 	/* Canvas contents */
 	var canvas1 = getPlaneCanvas([-2, 1], 2, 'flight_info');
 	var canvas2 = getPlaneCanvas([2, 1], 2, 'clock');
+	var canvas3 = getPlaneCanvas([0, 1.3], 1.3, 'live_flight');
 
 	loginBtn.addEventListener("click", function (event) {
 		console.log('Clicked!')
@@ -78,8 +80,9 @@ function init() {
 		scene.remove(box1);
 		scene.remove(canvas1);
 		scene.remove(canvas2);
+		scene.remove(canvas3);
 		loginBtn.parentNode.removeChild(loginBtn);
-		loginPage();
+		loginPage(event);
 	}, false);
 	
 /* Set up the renderer */
@@ -89,9 +92,9 @@ function init() {
 	document.getElementById('webgl').appendChild(renderer.domElement);
 
 	/* Interaction */
-	var controls = new THREE.OrbitControls(camera, renderer.domElement);
+	//var controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-	update(renderer, clock, stats, controls);
+	update(renderer, clock, stats/*, controls*/);
 
     return scene;
 }
@@ -235,9 +238,9 @@ function resize() {
 	
 }
 
-function update(renderer, clock, stats, controls) {
+function update(renderer, clock, stats/*, controls*/) {
 	stats.update();
-	controls.update();
+	//controls.update();
 
 	if (!loginClickEvent) {
 		var box1 = scene.getObjectByName('box1');
@@ -247,6 +250,6 @@ function update(renderer, clock, stats, controls) {
 	window.addEventListener('resize', resize);
     renderer.render(scene, camera);
 	requestAnimationFrame(function () {
-		update(renderer, clock, stats, controls);
+		update(renderer, clock, stats/*, controls*/);
 	});
 }

@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<title>RU-Entertained? System</title>
 	<link rel="shortcut icon" href="./Assets/Images/logo1.png" />
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
 	<style>
 		body {
 			overflow: hidden;
@@ -19,14 +20,25 @@
 		.button:hover{
 			background-color: #ffd800;
 		}
+		.info{
+			position: absolute;
+			top: 10px;
+			width: 100%;
+			text-align: center;
+			z-index: 100;
+			display:block;
+		}
 	</style>
 </head>
 <body>
 	<div id="webgl"></div>
+	<div id="info"></div>
+
 	<canvas id="canvas"></canvas>
 	
 	<button id="login" class="ui">LOGIN</button>
-	<button id="home" class="ui">LOG OFF</button>
+	<button id="log_off" class="ui">LOG OFF</button>
+	<button id="send_feedback" class="ui">SEND</button>
 
 	<script src="./libs/stats.js"></script>
 	<script src="./libs/dat.gui.min.js"></script>
@@ -36,6 +48,7 @@
 	<script src="./libs/OrbitControls.js"></script>
 
 	<script src="./scenes/canvasDispContents.js"></script>
+	<script src="./scenes/feedback.js"></script>
 	<script src="./scenes/loginPage.js"></script>
 	<script src="./scenes/main.js"></script>
 </body>

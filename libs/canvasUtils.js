@@ -1,9 +1,5 @@
 function boxFill(ctx, startC, size, color) {
-    if (color) {
-        ctx.fillStyle = color;
-    } else {
-        ctx.fillStyle = "#e6ffff";
-    }
+    ctx.fillStyle = color;
     ctx.fillRect(startC[0], startC[1], size[0], size[1]);
 }
 
@@ -397,7 +393,10 @@ function multipleLines(ctx, cords, color, thickness) {
     ctx.closePath();
 }
 
-function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
 }
