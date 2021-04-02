@@ -39,8 +39,11 @@ function dispFunction(ctx, content) {
 		case 'clock':
 			dispClock(ctx, w, h);
 			break;
-		case 'login':
-			dispLogin(ctx, w, h);
+		case 'voucher':
+			dispVoucherLogin(ctx, w, h);
+			break;
+		case 'email':
+			dispEmailLogin(ctx, w, h);
 			break;
 		case 'feedback':
 			dispFeedback(ctx, w, h);
@@ -111,4 +114,18 @@ function dispLiveFlight(ctx, w, h) {
 	img.addEventListener("load", function (event) {
 		ctx.drawImage(img, w/2, h/2);
 	}, false);
+}
+
+function dispVoucherLogin(ctx, w, h) {
+	textPrint("PLEASE LOGIN USING EITHER ", ctx, 30, [w, h * 0.1], "#FFF", "r");
+	textPrint("VOUCHER CODE (BP)", ctx, 30, [w * 0.5, h * 0.3], "#FFF", "c");
+	textPrint("O", ctx, 30, [w, h * 0.5], "#FFF", "r");
+	boxFill(ctx, [w * 0.1, h * 0.4], [w * 0.8, h * 0.2], "#fff", 2);
+}
+
+function dispEmailLogin(ctx, w, h) {
+	textPrint("VOUCHER OR EMAIL ADDRESS", ctx, 30, [0, h * 0.1], "#FFF", "l");
+	textPrint("EMAIL ID (TICKET)", ctx, 30, [w * 0.5, h * 0.3], "#FFF", "c");
+	textPrint("R", ctx, 30, [0, h * 0.5], "#FFF", "l");
+	boxFill(ctx, [w * 0.1, h * 0.4], [w * 0.8, h * 0.2], "#fff", 2);
 }

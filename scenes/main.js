@@ -1,8 +1,10 @@
 /* Variable declarations */
-let scene, camera, raycaster, mouse;
+var scene, camera, raycaster, mouse;
 let loginClickEvent = false;
+
 /* Scene setup */
 scene = new THREE.Scene();
+scene.name = "scene";
 
 /* Camera Setup */
 camera = new THREE.PerspectiveCamera(
@@ -21,7 +23,6 @@ init();
 function init() {
 	var clock = new THREE.Clock();
 	var stats = new Stats();
-	var gui = new dat.GUI();
 	document.body.appendChild(stats.dom);
 
 	camera.position.z = 5;
@@ -72,17 +73,40 @@ function init() {
 	/* Canvas contents */
 	var canvas1 = getPlaneCanvas([-2, 1], 2, 'flight_info');
 	var canvas2 = getPlaneCanvas([2, 1], 2, 'clock');
-	var canvas3 = getPlaneCanvas([0, 1.3], 1.3, 'live_flight');
+/*var canvas3 = getPlaneCanvas([0, 1.3], 1.3, 'live_flight');*/
+
+/* Live 3D map */
+	var earthMat = getMaterial('basic');
+	var earth = getSphere(0.5, [0, 1.3, 0], earthMat);
+	scene.add(earth);
+	earth.name = 'earth';
+	earthMat.map = loader.load(imgPath + 'earthmap1k.jpg');
+	var earthMap = earthMat.map;
+	earthMap.wrapS = THREE.RepeatWrapping;
+	earthMap.wrapT = THREE.RepeatWrapping;
+	earthMap.repeat.set(1, 1);
+
+	//var planeTrajectory = getCurve4Points(
+	//	new THREE.Vector3(-10, 0, 0),
+	//	new THREE.Vector3(-5, 15, 0),
+	//	new THREE.Vector3(20, 15, 0),
+	//	new THREE.Vector3(10, 0, 0),
+	//	"#f00"
+	//);
+	//scene.add(planeTrajectory);
 
 	loginBtn.addEventListener("click", function (event) {
-		console.log('Clicked!')
+
+		console.log('Clicked!');
 		loginClickEvent = true;
 		scene.remove(box1);
 		scene.remove(canvas1);
 		scene.remove(canvas2);
-		scene.remove(canvas3);
-		loginBtn.parentNode.removeChild(loginBtn);
-		loginPage(event);
+		scene.remove(earth);
+		loginPage();
+
+		//loginBtn.parentNode.removeChild(loginBtn);
+
 	}, false);
 	
 /* Set up the renderer */
@@ -98,6 +122,59 @@ function init() {
 
     return scene;
 }
+
+function loginPage() {
+	var login_event = false;
+	//var mesh = getPlaneCanvas([0, 0], 4, 'login');
+	/* Login form */
+	var voucherLogin = getPlaneCanvas([-1, 0], 2, 'voucher');
+	var emailLogin = getPlaneCanvas([1, 0], 2, 'email');
+
+	var loginBtn2 = document.getElementById('login');
+	loginBtn2.style.width = "10%";
+	loginBtn2.style.height = "10%";
+	loginBtn2.style.fontSize = "100%";
+	loginBtn2.style.bottom = "15%";
+	loginBtn2.style.left = "30%";
+	loginBtn2.style.margin = "auto";
+	loginBtn2.style.display = "block";
+	loginBtn2.style.fontFamily = "cursive";
+	loginBtn2.style.color = "#fff";
+	loginBtn2.style.backgroundColor = "#e63800";
+
+	var cancelLogin = document.getElementById('cancel_login');
+	cancelLogin.style.bottom = "15%";
+	cancelLogin.style.right = "30%";
+	cancelLogin.style.margin = "auto";
+	cancelLogin.style.display = "block";
+	cancelLogin.style.width = "10%";
+	cancelLogin.style.height = "10%";
+	cancelLogin.style.fontSize = "100%";
+	cancelLogin.style.fontFamily = "cursive";
+	cancelLogin.style.color = "#fff";
+	cancelLogin.style.backgroundColor = "#e63800";
+
+	loginBtn2.addEventListener("click", function (event) {
+		loginBtn2.parentNode.removeChild(loginBtn2);
+		cancelLogin.parentNode.removeChild(cancelLogin);
+		login_event = true;
+		//let voucherLogin = document.getElementById('voucherLogin');
+		//let emailLogin = document.getElementById('emailLogin');
+		if (login_event) {
+			scene.remove(voucherLogin);
+			scene.remove(emailLogin);
+			console.log('loginPage closed!')
+			desktopPage();
+		}
+	});
+
+	cancelLogin.addEventListener("click", function (event) {
+		location.reload();
+	});
+
+	/*    return loginCanvas;*/
+}
+
 
 function getBox(size, position, rotation, material) {
 	var geometry = new THREE.BoxGeometry(size[0], size[1], size[2]);
@@ -143,13 +220,29 @@ function getPlane(size, material) {
 	return mesh;
 }
 
-function getSphere(size) {
-	var geometry = new THREE.SphereGeometry(size, 24, 24);
-	var material = getMaterial('standard');
-	var mesh = new THREE.Mesh(
-		geometry,
-		material
+function getCurve4Points(start, end, controlPt1, controlPt2, color) {
+	const curve = new THREE.CubicBezierCurve3(
+		new THREE.Vector3(-10, 0, 0),
+		new THREE.Vector3(-5, 15, 0),
+		new THREE.Vector3(20, 15, 0),
+		new THREE.Vector3(10, 0, 0)
 	);
+
+	const points = curve.getPoints(50);
+	const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+	const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+
+	// Create the final object to add to the scene
+	const curveObject = new THREE.Line(geometry, material);
+
+	return curveObj;
+}
+
+function getSphere(size, position, material) {
+	var geometry = new THREE.SphereGeometry(size, 24, 24);
+	var mesh = new THREE.Mesh(geometry, material);
+	mesh.position.set(position[0], position[1], position[2]);
 
 	return mesh;
 }
@@ -241,10 +334,14 @@ function resize() {
 function update(renderer, clock, stats/*, controls*/) {
 	stats.update();
 	//controls.update();
+	//inputManager.requestAnimationFrame();
 
 	if (!loginClickEvent) {
 		var box1 = scene.getObjectByName('box1');
 		box1.rotation.y += 0.01;
+
+		//var earth = scene.getObjectByName('earth');
+		//earth.rotation.y += 0.01;
     }
 
 	window.addEventListener('resize', resize);
