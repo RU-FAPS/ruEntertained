@@ -5,6 +5,7 @@ function dispLogOff() {
 function dispFeedback(ctx, w, h) {
 	textPrint("PLEASE RATE THE IFEC SERVICE!", ctx, 20, [w * 0.5, h * 0.1], "#0f0", "c");
 	textPrint("COMMENTS", ctx, 20, [w * 0.5, h * 0.3], "#0f0", "c");
+	boxFill(ctx, [w*0.1, h*0.38], [0.8*w, 0.35*h], "#fff");
 	send_feedback(ctx, w, h);
 }
 
@@ -25,6 +26,7 @@ function send_feedback(ctx, w, h) {
 
 	//ctx.clearRect(0, 0, w, h);
 	send_report_btn.addEventListener("click", function (event) {
-		ctx.clearRect(0, 0, w, h);
+		var cmd1 = ctx.clearRect(0,0,w,h);
+		console.log(cmd1)
 	});
 }

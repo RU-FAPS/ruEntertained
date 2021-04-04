@@ -3,11 +3,15 @@ function loginPage(loginBtn) {
     //var mesh = getPlaneCanvas([0, 0], 4, 'login');
 	/* Login form */
 	let voucherLogin = getPlaneCanvas([-1, 0], 2, 'voucher');
-	voucherLogin.name = 'voucherLogin';
 	let emailLogin = getPlaneCanvas([1, 0], 2, 'email');
-	emailLogin.name = 'emailLogin';
 
-	//var loginBtn = document.getElementById('login');
+	loginBtn.parentNode.removeChild(loginBtn);
+	loginBtn = document.getElementById('login2');
+	loginBtn.style.margin = "auto";
+	loginBtn.style.display = "block";
+	loginBtn.style.fontFamily = "cursive";
+	loginBtn.style.color = "#fff";
+	loginBtn.style.backgroundColor = "#e63800";
 	loginBtn.style.width = "10%";
 	loginBtn.style.height = "10%";
 	loginBtn.style.fontSize = "100%";
@@ -33,11 +37,9 @@ function loginPage(loginBtn) {
 		//let voucherLogin = document.getElementById('voucherLogin');
 		//let emailLogin = document.getElementById('emailLogin');
 		if (login_event) {
-			var scene = document.getElementById("scene");
-			scene.remove(voucherLogin);
-			scene.remove(emailLogin);
-			update;
-			console.log('loginPage closed!')
+			voucherLogin.parent.remove(voucherLogin);
+			emailLogin.parent.remove(emailLogin);
+			
 			desktopPage();
 		}
 	});

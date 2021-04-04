@@ -26,6 +26,32 @@ function getPlaneCanvas(position2dVector, size2dSquareValue, content2display) {
 	return canvasPlane;
 }
 
+function getPlaneCanvas16by9(position2dVector, size2dwidth, content2display) {
+	var canvas = document.createElement('canvas');
+	var ctx = canvas.getContext('2d');
+	canvas.width = 1024;
+	canvas.height = 576;
+	boxFill(ctx, [0, 0], [canvas.width, canvas.height], "#000");
+	dispFunction(ctx, content2display);
+	var texture = new THREE.CanvasTexture(canvas);
+	var canvasMaterial = new THREE.MeshBasicMaterial({
+		color: '#fff',
+		transparent: true,
+		alphaTest: 0.5,
+		opacity: 0.8
+	});
+	//gui.add(canvasMaterial, 'opacity', 0.5, 1);
+	var canvasPlane = getPlane16by9(size2dwidth, canvasMaterial);
+	scene.add(canvasPlane);
+	canvasPlane.position.x = position2dVector[0];
+	canvasPlane.position.y = position2dVector[1];
+
+	texture.needsUpdate = true;
+	canvasMaterial.map = texture;
+
+	return canvasPlane;
+}
+
 function dispFunction(ctx, content) {
 	var w = ctx.canvas.width;
 	var h = ctx.canvas.height;
@@ -50,6 +76,9 @@ function dispFunction(ctx, content) {
 			break;
 		case 'live_flight':
 			dispLiveFlight(ctx, w, h);
+			break;
+		case 'recommender':
+			dispRecommender(ctx, w, h);
 			break;
 		default:
 			helloWorld(ctx, w, h);
@@ -128,4 +157,8 @@ function dispEmailLogin(ctx, w, h) {
 	textPrint("EMAIL ID (TICKET)", ctx, 30, [w * 0.5, h * 0.3], "#FFF", "c");
 	textPrint("R", ctx, 30, [0, h * 0.5], "#FFF", "l");
 	boxFill(ctx, [w * 0.1, h * 0.4], [w * 0.8, h * 0.2], "#fff", 2);
+}
+
+function dispRecommender(ctx, w, h) {
+	textPrint("Test Content", ctx, 30, [w / 2, h / 2], "#fff", "c");
 }

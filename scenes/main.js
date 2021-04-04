@@ -18,6 +18,10 @@ camera = new THREE.PerspectiveCamera(
 raycaster = new THREE.Raycaster();
 mouse = new THREE.Vector2();
 
+/* Texture Setup */
+var loader = new THREE.TextureLoader();
+var imgPath = './Assets/Images/';
+
 init();
 
 function init() {
@@ -32,10 +36,6 @@ function init() {
 	//var aLight = getAmbientLight(5);
  //   var dLight = getDirectionalLight(10);
 	//dLight.position.set(13, 10, 10);
-
-/* Texture Setup */
-	var loader = new THREE.TextureLoader();
-	var imgPath = './Assets/Images/';
 
 /* Environment Map */
 	getEnvMaps(imgPath);
@@ -103,7 +103,7 @@ function init() {
 		scene.remove(canvas1);
 		scene.remove(canvas2);
 		scene.remove(earth);
-		loginPage();
+		loginPage(loginBtn);
 
 		//loginBtn.parentNode.removeChild(loginBtn);
 
@@ -122,59 +122,6 @@ function init() {
 
     return scene;
 }
-
-function loginPage() {
-	var login_event = false;
-	//var mesh = getPlaneCanvas([0, 0], 4, 'login');
-	/* Login form */
-	var voucherLogin = getPlaneCanvas([-1, 0], 2, 'voucher');
-	var emailLogin = getPlaneCanvas([1, 0], 2, 'email');
-
-	var loginBtn2 = document.getElementById('login');
-	loginBtn2.style.width = "10%";
-	loginBtn2.style.height = "10%";
-	loginBtn2.style.fontSize = "100%";
-	loginBtn2.style.bottom = "15%";
-	loginBtn2.style.left = "30%";
-	loginBtn2.style.margin = "auto";
-	loginBtn2.style.display = "block";
-	loginBtn2.style.fontFamily = "cursive";
-	loginBtn2.style.color = "#fff";
-	loginBtn2.style.backgroundColor = "#e63800";
-
-	var cancelLogin = document.getElementById('cancel_login');
-	cancelLogin.style.bottom = "15%";
-	cancelLogin.style.right = "30%";
-	cancelLogin.style.margin = "auto";
-	cancelLogin.style.display = "block";
-	cancelLogin.style.width = "10%";
-	cancelLogin.style.height = "10%";
-	cancelLogin.style.fontSize = "100%";
-	cancelLogin.style.fontFamily = "cursive";
-	cancelLogin.style.color = "#fff";
-	cancelLogin.style.backgroundColor = "#e63800";
-
-	loginBtn2.addEventListener("click", function (event) {
-		loginBtn2.parentNode.removeChild(loginBtn2);
-		cancelLogin.parentNode.removeChild(cancelLogin);
-		login_event = true;
-		//let voucherLogin = document.getElementById('voucherLogin');
-		//let emailLogin = document.getElementById('emailLogin');
-		if (login_event) {
-			scene.remove(voucherLogin);
-			scene.remove(emailLogin);
-			console.log('loginPage closed!')
-			desktopPage();
-		}
-	});
-
-	cancelLogin.addEventListener("click", function (event) {
-		location.reload();
-	});
-
-	/*    return loginCanvas;*/
-}
-
 
 function getBox(size, position, rotation, material) {
 	var geometry = new THREE.BoxGeometry(size[0], size[1], size[2]);
@@ -216,6 +163,13 @@ function getBoxGrid(amount, separationMultiplier) {
 function getPlane(size, material) {
 	var geometry = new THREE.PlaneGeometry(size, size);
 	var mesh = new THREE.Mesh(geometry,	material);
+
+	return mesh;
+}
+
+function getPlane16by9(size, material) {
+	var geometry = new THREE.PlaneGeometry(size, size * 9/16);
+	var mesh = new THREE.Mesh(geometry, material);
 
 	return mesh;
 }
