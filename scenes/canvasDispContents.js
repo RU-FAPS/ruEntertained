@@ -147,9 +147,12 @@ function dispLiveFlight(ctx, w, h) {
 
 function dispVoucherLogin(ctx, w, h) {
 	textPrint("PLEASE LOGIN USING EITHER ", ctx, 30, [w, h * 0.1], "#FFF", "r");
-	textPrint("VOUCHER CODE (BP)", ctx, 30, [w * 0.5, h * 0.3], "#FFF", "c");
+	textPrint("VOUCHER CODE", ctx, 30, [w * 0.5, h * 0.3], "#FFF", "c");
 	textPrint("O", ctx, 30, [w, h * 0.5], "#FFF", "r");
 	boxFill(ctx, [w * 0.1, h * 0.4], [w * 0.8, h * 0.2], "#fff", 2);
+	textPrint("Enter the code", ctx, 30, [w * 0.15, h * 0.5], "#222", "l");
+	textPrint("Use the code from", ctx, 30, [w * 0.5, h * 0.7], "#FFF", "c");
+	textPrint("your Boarding Pass", ctx, 30, [w * 0.5, h * 0.77], "#FFF", "c");
 }
 
 function dispEmailLogin(ctx, w, h) {
@@ -157,8 +160,17 @@ function dispEmailLogin(ctx, w, h) {
 	textPrint("EMAIL ID (TICKET)", ctx, 30, [w * 0.5, h * 0.3], "#FFF", "c");
 	textPrint("R", ctx, 30, [0, h * 0.5], "#FFF", "l");
 	boxFill(ctx, [w * 0.1, h * 0.4], [w * 0.8, h * 0.2], "#fff", 2);
+	textPrint("Enter the email", ctx, 30, [w * 0.15, h * 0.5], "#222", "l");
+	textPrint("Use the email address from", ctx, 30, [w * 0.5, h * 0.7], "#FFF", "c");
+	textPrint("your Boarding Pass", ctx, 30, [w * 0.5, h * 0.77], "#FFF", "c");
 }
 
 function dispRecommender(ctx, w, h) {
-	textPrint("Test Content", ctx, 30, [w / 2, h / 2], "#fff", "c");
+	//textPrint("Test Content", ctx, 30, [w / 2, h / 2], "#fff", "c");
+	var sample1 = new Image();
+	sample1.addEventListener("load", () => {
+		ctx.drawImage(sample1, 0, 0);
+	});
+	sample1.src = document.getElementById("sample1");
+	console.log("Sample loaded!");
 }

@@ -1,14 +1,17 @@
 function desktopPage() {
 	//var scene2 = new THREE.Scene();
 	// Meshes
-	imgPath += 'Icons/';
-	var imgFormat = ".png";
 
-	var appWindow = getPlaneCanvas16by9([0, .4], 5.5, 'recommender');
-	//var appMat = getMaterial('basic');
-	//var appWindow = getPlane16by9(5, appMat);
-	//appWindow.position.set(0, 0.5, 0);
-	//scene.add(appWindow);
+	//var appWindow = getPlaneCanvas16by9([0, .4], 5.5, 'recommender');
+	var appMat = getMaterial('basic');
+	var appWindow = getPlane16by9(5, appMat);
+	appWindow.position.set(0, 0.5, 0);
+	scene.add(appWindow);
+
+	appMat.map = loader.load(imgPath + 'youtubes1.png');
+	appMat.map.wrapS = THREE.RepeatWrapping;
+	appMat.map.wrapT = THREE.RepeatWrapping;
+	appMat.map.repeat.set(1, 1);
 
 //	var w = 1024;
 //	var h = 576;
@@ -32,6 +35,9 @@ function desktopPage() {
 	iFrameLoader.width = '1024px';
 	iFrameLoader.height = '576px';
 	console.log(iFrameLoader);
+
+	imgPath += 'Icons/';
+	var imgFormat = ".png";
 
 	var appList = [
 		'airbnb', 'amazon', 'BBC', 'citymapper',
