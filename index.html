@@ -33,14 +33,24 @@
 <body>
 	<div id="webgl"></div>
 	<div id="info"></div>
+	<div class="reviewStars">
+		<span data-rating="1"><i class="far fa-star"></i></span>
+		<span data-rating="2"><i class="far fa-star"></i></span>
+		<span data-rating="3"><i class="far fa-star"></i></span>
+		<span data-rating="4"><i class="far fa-star"></i></span>
+		<span data-rating="5"><i class="far fa-star"></i></span>
+	</div>
 
 	<canvas id="canvas"></canvas>
-	
+
 	<button id="login" class="ui">LOGIN</button>
 	<button id="login2" class="ui">LOGIN</button>
-	<button id="log_off" class="ui">LOG OFF</button>
+	<button id="log_off_request" class="ui">LOG OFF</button>
 	<button id="cancel_login" class="ui">CANCEL</button>
 	<button id="send_feedback" class="ui">SEND</button>
+	<button id="log_off" class="ui">LOG OFF</button>
+
+	<iframe id="url_loader" class="ui"></iframe>
 
 	<script src="./libs/stats.js"></script>
 	<script src="./libs/dat.gui.min.js"></script>
@@ -51,10 +61,10 @@
 	<!--<script src="./libs/require.js"></script>
 	<script src="./libs/backbone.js"></script>
 	<script src="./libs/threejsInputFields.js"></script>-->
+	<!--<script src="./libs/THREE/jsm/CSS3DRenderer.js"></script>-->
 
 	<script src="./scenes/canvasDispContents.js"></script>
-	<script src="./scenes/feedback.js"></script>
-	<script src="./scenes/desktopPage.js"></script>
+	<script src="./scenes/permittedApp.js"></script>
 	<script src="./scenes/loginPage.js"></script>
 	<script src="./scenes/main.js"></script>
 </body>

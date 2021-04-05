@@ -1,8 +1,14 @@
 {
   "ExpandedNodes": [
     "",
-    "\\scenes"
+    "\\Assets\\Images",
+    "\\Assets\\Images\\Icons",
+    "\\editor\\js",
+    "\\Images",
+    "\\libs",
+    "\\libs\\THREE",
+    "\\libs\\THREE\\jsm",
+    "\\src\\scenes"
   ],
-  "SelectedNode": "\\scenes\\desktopPage.js",
   "PreviewInSolutionExplorer": false
 }
